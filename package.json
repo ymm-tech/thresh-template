@@ -1,5 +1,5 @@
 {
-  "name": "thresh-lib-template",
+  "name": "thresh-template",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
