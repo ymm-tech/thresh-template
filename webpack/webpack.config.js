@@ -19,6 +19,9 @@ module.exports = {
   },
   mode: hotUpdate ? 'development' : 'none',
   resolve: {
+    alias: {
+      'thresh-lib': path.resolve(__dirname, '../node_modules/thresh-lib'),
+    },
     extensions: [ '.tsx', '.jsx', '.ts', '.js' ]
   },
   resolveLoader:{
@@ -28,12 +31,11 @@ module.exports = {
     rules: [
       {
         test: /\.(jpg)|(jpeg)|(png)|(gif)$/,
-        exclude: /node_modules/,
         use: {
           loader: 'image-loader',
           options: {
-            localImageUseHttpRequestEnvs: [ DEV_ENV ],
-            imageHost: config.server.imageProxyHost || config.server.host,
+            localImageUseHttp: isDev || hotUpdate,
+            imageHost: config.server.imageProxyHost,
             port: config.server.port
           }
         }
@@ -45,6 +47,7 @@ module.exports = {
         include: !isDev ? [
           path.resolve(__dirname, '../src'),
           path.resolve(__dirname, '../node_modules/thresh-lib'),
+          path.resolve(__dirname, '../node_modules/thresh-component'),
         ] : void 0,
         use: [
           {
@@ -107,7 +110,7 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: path.resolve(__dirname, '../src'),
+    contentBase: path.resolve(__dirname, '../'),
     compress: true,
     host: config.server.host,
     port: config.server.port,
